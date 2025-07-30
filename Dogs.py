@@ -28,10 +28,12 @@ def show_image():
             img_size = (int(width_spinbox.get()), int(height_spinbox.get()))
             img.thumbnail(img_size, Image.Resampling.LANCZOS)
             img = ImageTk.PhotoImage(img)
-            new_window = Toplevel()
-            new_window.title('Randon image')
-            lb = ttk.Label(new_window, image=img)
-            lb.pack()
+            # new_window = Toplevel()
+            # new_window.title('Randon image')
+            tab = ttk.Frame(notebook)
+            notebook.add(tab, text=f'Tab image #{notebook.index("end")+1}')
+            lb = ttk.Label(tab, image=img)
+            lb.pack(padx=10, pady=10)
             lb.image = img
         except Exception as e:
             messagebox.showerror('Error!', f'The Error occurred {e}.')
@@ -59,29 +61,18 @@ width_label = ttk.Label(text='Width')
 width_label.pack(side='left', padx=(10,0 ))
 width_spinbox = ttk.Spinbox(from_=200, to=500, increment=50, width=5)
 width_spinbox.pack(side='left', padx=(0, 10))
+width_spinbox.set((300))
 
 height_label = ttk.Label(text='Height')
 height_label.pack(side='left', padx=(10,0 ))
 height_spinbox = ttk.Spinbox(from_=200, to=500, increment=50, width=5)
 height_spinbox.pack(side='left', padx=(0, 10))
+height_spinbox.set((300))
 
+top_level_window = Toplevel(window)
+top_level_window.title('Picures of dogs!')
 
-# menu_bar = Menu(window)
-# window.config(menu=menu_bar)
-#
-# file_menu = Menu(menu_bar, tearoff=0)
-# menu_bar.add_cascade(label="Файл", menu=file_menu)
-# file_menu.add_command(label="Загрузить фото", command=open_new_window)
-# file_menu.add_separator()
-# file_menu.add_command(label="Выход", command=window.destroy)
-#
-# # Метка "Выбери тег"
-# tag_label = Label(window, text="Выбери тег")
-# tag_label.pack()
-#
-# tag_combobox = ttk.Combobox(window, values=ALLOWED_TAGS)
-# tag_combobox.pack()
-#
-
+notebook = ttk.Notebook(top_level_window)
+notebook.pack(expand=True, fill="both", padx=10, pady=10)
 
 window.mainloop()
