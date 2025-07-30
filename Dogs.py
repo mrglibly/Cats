@@ -25,10 +25,14 @@ def show_image():
             response.raise_for_status()
             img_data = BytesIO(response.content)
             img = Image.open(img_data)
-            img.thumbnail((300, 300), Image.Resampling.LANCZOS)
+            img_size = (int(width_spinbox.get()), int(height_spinbox.get()))
+            img.thumbnail(img_size, Image.Resampling.LANCZOS)
             img = ImageTk.PhotoImage(img)
-            label.config(image=img)
-            label.image = img
+            new_window = Toplevel()
+            new_window.title('Randon image')
+            lb = ttk.Label(new_window, image=img)
+            lb.pack()
+            lb.image = img
         except Exception as e:
             messagebox.showerror('Error!', f'The Error occurred {e}.')
         progress_b.stop()
@@ -50,6 +54,16 @@ button.pack(pady=10)
 
 progress_b = ttk.Progressbar(mode='determinate',length=300)
 progress_b.pack(pady=10)
+
+width_label = ttk.Label(text='Width')
+width_label.pack(side='left', padx=(10,0 ))
+width_spinbox = ttk.Spinbox(from_=200, to=500, increment=50, width=5)
+width_spinbox.pack(side='left', padx=(0, 10))
+
+height_label = ttk.Label(text='Height')
+height_label.pack(side='left', padx=(10,0 ))
+height_spinbox = ttk.Spinbox(from_=200, to=500, increment=50, width=5)
+height_spinbox.pack(side='left', padx=(0, 10))
 
 
 # menu_bar = Menu(window)
